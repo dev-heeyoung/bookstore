@@ -9,13 +9,14 @@ var db *gorm.DB
 
 type Book struct {
 	gorm.Model
+	Id          string `json:"id"`
 	Name        string `json:"name"`
 	Author      string `json:"author"`
 	Publication string `json:"publication"`
 }
 
-func init() {
-	db = config.Connect()
+func Init() {
+	db = config.ConnectDB()
 	db.AutoMigrate(&Book{})
 }
 
@@ -30,13 +31,13 @@ func GetAllBooks() []Book {
 	return books
 }
 
-func GetBookById(id int) (*Book, *gorm.DB) {
+func GetBookById(id string) (*Book, *gorm.DB) {
 	var book Book
 	db := db.Where("ID=?", id).Find(&book)
 	return &book, db
 }
 
-func DeleteBook(id int) *Book {
+func DeleteBook(id string) *Book {
 	var book Book
 	db.Where("ID=?", id).Delete(&book)
 	return &book
