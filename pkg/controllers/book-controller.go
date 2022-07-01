@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/dev-heeyoung/bookstore/pkg/cache"
@@ -32,11 +33,12 @@ func GetBooks(w http.ResponseWriter, r *http.Request) {
 func GetBookById(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["bookId"]
-
 	book := cache.GetBook(id)
-	if book.Id != "" {
+
+	if book.ID == 0 {
 		book, _ = models.GetBookById(id)
-		if book.Id != "" {
+
+		if book.ID == 0 {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		} else {
@@ -44,6 +46,7 @@ func GetBookById(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	res, _ := json.Marshal(book)
+	fmt.Println(res)
 	w.Header().Set("Content-Type", "pkglication/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)

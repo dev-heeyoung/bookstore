@@ -9,7 +9,7 @@ var db *gorm.DB
 
 type Book struct {
 	gorm.Model
-	Id          string `json:"id"`
+	//Id          string `json:"bookId"`
 	Name        string `json:"name"`
 	Author      string `json:"author"`
 	Publication string `json:"publication"`

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"strconv"
 
 	"github.com/dev-heeyoung/bookstore/pkg/config"
 	"github.com/dev-heeyoung/bookstore/pkg/models"
@@ -42,7 +43,7 @@ func SaveBook(book *models.Book) {
 		panic(err)
 	}
 
-	err = RedisClient.Set(Ctx, book.Id, bookBytes, 0).Err()
+	err = RedisClient.Set(Ctx, strconv.FormatUint(uint64(book.ID), 10), bookBytes, 0).Err()
 
 	if err != nil {
 		panic(err)
